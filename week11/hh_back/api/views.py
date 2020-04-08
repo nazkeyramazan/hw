@@ -25,9 +25,9 @@ def company_vacancies(request , company_id):
     except Company.DoesNotExist as e:
         return JsonResponse({'Error': str(e)})
 
-    vacancies = Vacancy.objects.all()
+    vacancies = company.objects.all()
     vacancies_json = [vacancy.to_json() for vacancy in vacancies]
-    return JsonResponse({})
+    return JsonResponse(vacancies_json , safe= False)
 
 def vacancy_list(request):
     try:
@@ -43,10 +43,12 @@ def vacancy_detail(request, vacancy_id):
     except Vacancy.DoesNotExist as e:
         return JsonResponse({'error': str(e)})
     return JsonResponse(vacancy.to_json())
+
 def topten_vacancies(request):
     try:
-        vacancies = Vacancy.objects.order_by('salary')
-        vacancies_json = [vacancies[i].to_json() for i in range(10)]
+        vacancies = Vacancy.objects.all()
+        top_ten = vacancies.order_by('-salary')
+        top_ten_json = [top.to_json() for top in top_ten]
     except Vacancy.DoesNotExist:
         return JsonResponse ({'Error':'There are no 10 vacancies'})
-    return JsonResponse(vacancies_json ,safe=False)
+    return JsonResponse(top_ten_json ,safe=False)
