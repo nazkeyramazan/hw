@@ -1,15 +1,13 @@
-import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {Company , Vacancy ,LoginResponse} from './models';
-
-
+import {Injectable} from '@angular/core';
+import {Observable, of} from 'rxjs';
+import {HttpClient} from "@angular/common/http";
+import {Company, LoginResponse} from "./company";
+import {Vacancy} from './vacancy';
 @Injectable({
   providedIn: 'root'
 })
 export class CompanyService {
-
-  BASE_URL = 'http://127.0.0.1:8000';
+  BASE_URL = 'http://localhost:8000'
   constructor(private http: HttpClient) {}
 
   getCompanyList(): Observable<Company[]> {
@@ -17,7 +15,7 @@ export class CompanyService {
   }
 
   getCompany(id): Observable<Company> {
-    return this.http.get<Company>(`${this.BASE_URL}/api/companies${id}/`);
+    return this.http.get<Company>(`${this.BASE_URL}/api/companies/${id}/`);
   }
 
   deleteCompany(id): Observable<any> {
@@ -32,6 +30,6 @@ export class CompanyService {
     return this.http.post<LoginResponse>(`${this.BASE_URL}/api/login/`, {
       username,
       password
-    });
+    })
   }
 }

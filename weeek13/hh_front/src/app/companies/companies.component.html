@@ -1,0 +1,12 @@
+  
+
+  <div class="company" *ngFor="let company of companies">
+    
+    <a>{{ company.name }}</a><br>
+    {{company.description}}<br>
+    {{company.address}}<br>
+
+    <button routerLink="/company/:{{company.id}}/vacancies">Vacancies</button>
+    <button (click)="deleteCompany(company.id)">Delete</button>
+
+  </div>

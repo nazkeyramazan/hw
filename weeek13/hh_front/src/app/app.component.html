@@ -1,5 +1,6 @@
+
 <div *ngIf="!logged">
-  <h1>Login</h1>
+  <h1>Login form</h1>
   <p>Username: <input type="text" [(ngModel)]="username"></p>
   <p>Password: <input type="text" [(ngModel)]="password"></p>
 
@@ -8,9 +9,8 @@
 
 <div class="wrapper" *ngIf="logged">
   <h1 class="header">Companies</h1>
-  <div>
-    <router-outlet></router-outlet>
-  </div>
-  <button (click)="logout()">Logout</button>
 
+  <router-outlet></router-outlet>
+
+  <button (click)="logout()">Logout</button>
 </div>

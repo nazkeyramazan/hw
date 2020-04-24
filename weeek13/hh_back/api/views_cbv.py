@@ -5,12 +5,11 @@ from api.models import Company , Vacancy
 from api.serializers import CompanyModelSerializer , VacancyModelSerializer ,CompanySerializer
 from rest_framework.permissions import IsAuthenticated
 
-#CompanyVacanciesAPIView ,,VacancyDetailAPIView ,TopTenVacanciesAPIView
+
 class CompanyListAPIView(APIView):
     def get(self, request):
         companies = Company.objects.all()
         serializer = CompanyModelSerializer(companies, many=True)
-
         return Response(serializer.data)
 
     def post(self, request):
@@ -21,7 +20,7 @@ class CompanyListAPIView(APIView):
         return Response({'error': serializer.errors},
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    permission_classes = (IsAuthenticated,)
+#
 
 class CompanyDetailAPIView(APIView):
     def get_object(self, id):
@@ -57,13 +56,12 @@ class CompanyVacanciesAPIView(APIView):
 
 class VacancyListAPIView(APIView):
     def get(self, request):
-        categories = Company.objects.all()
-        serializer = CompanyModelSerializer(categories, many=True)
-
+        vacancies = Vacancy.objects.all()
+        serializer = VacancyModelSerializer(vacancies, many=True)
         return Response(serializer.data)
 
     def post(self, request):
-        serializer = CompanyModelSerializer(data=request.data)
+        serializer = VacancyModelSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -91,14 +89,14 @@ class VacancyDetailAPIView(APIView):
         return Response({'errors': serializer.errors })
 
     def delete(self, request, vacancy_id):
-        company = self.get_object(vacancy_id)
-        company.delete()
-
+        vacancy = self.get_object(vacancy_id)
+        vacancy.delete()
         return Response({'deleted':True})
 
 
 class TopTenVacanciesAPIView(APIView):
     def get(self, request):
-        top_ten = Vacancy.objects.order_by('salary')[:10]
+        top_ten = Vacancy.objects.order_by('-salary')[:10]
         serializer = VacancyModelSerializer(top_ten, many=True)
         return Response(serializer.data)
+    permission_classes = (IsAuthenticated,)

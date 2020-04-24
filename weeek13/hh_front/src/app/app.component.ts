@@ -1,13 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import { Component } from '@angular/core';
 import {CompanyService} from './company.service';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
-  title = 'hh front';
+export class AppComponent {
+  title = 'front';
 
   logged = false;
 
@@ -16,14 +15,14 @@ export class AppComponent implements OnInit {
 
   constructor(private companyService: CompanyService) {}
 
-  ngOnInit() {
+  ngOnInit(){
     let token = localStorage.getItem('token');
-    if (token) {
+    if (token){
       this.logged = true;
     }
   }
 
-  login() {
+  login(){
     this.companyService.login(this.username, this.password)
       .subscribe(res => {
 
@@ -33,13 +32,11 @@ export class AppComponent implements OnInit {
 
         this.username = '';
         this.password = '';
-      });
-      window.alert('Salamaleikum');
+      })
   }
 
-  logout() {
+  logout(){
     localStorage.clear();
     this.logged = false;
   }
-
 }
